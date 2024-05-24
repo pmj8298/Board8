@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.board.menus.domain.MenuVo;
@@ -18,6 +20,11 @@ import com.board.pds.service.PdsService;
 @Controller
 @RequestMapping("/Pds")
 public class PdsController {
+	// application.properties 속성 가져오기
+	// import org.springframework.beans.factory.annotation.Value;
+	@Value("${part4.upload-path}")
+	private String uploadPath;
+	
 	@Autowired
 	private MenuMapper menuMapper;
 	
@@ -78,6 +85,30 @@ public class PdsController {
 		mv.addObject("menuList",menuList);
 		mv.setViewName("pds/write");
 		
+		return mv;
+	}
+	
+	// /Pds/Write - 자료실 저장(글 + 파일들)
+	@RequestMapping("/Write")
+	public ModelAndView write(
+			@RequestParam HashMap<String,Object> map, // 파일이 아닌 일반데이터
+			@RequestParam(value="upfile", required=false) // required=false : 입력을 안할수도 있다
+				MultipartFile[] uploadfiles // 파일처리
+			) {
+		// 넘어온 정보
+		System.out.println("map:" + map); 
+		// 저장
+		// 1. map 정보
+		// 새글 저장 -> Board table 저장
+		// 2. request 정보 활용
+		// 2-1. 업로드 시 파일 정보 저장 -> Files Table 저장
+		// 2-2. 실제 폴더에 파일 저장 -> uploadPath (D:\data 폴더)에 저장
+		
+		String menu_id = "MENU01";
+		ModelAndView mv = new ModelAndView();
+		mv.addObject("map",map);
+		mv.setViewName("redirect:/Pds/List?menu_id=" + menu_id);
+
 		return mv;
 	}
 }
