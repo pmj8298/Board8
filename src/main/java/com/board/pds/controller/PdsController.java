@@ -71,8 +71,11 @@ public class PdsController {
 	// /Pds/WriteForm?nowpage=1&menu_id=MENU01
 	@RequestMapping("/WriteForm")
 	public ModelAndView writeForm(@RequestParam HashMap<String,Object> map) {
+		List<MenuVo> menuList = menuMapper.getMenuList();
+		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("map",map);
+		mv.addObject("menuList",menuList);
 		mv.setViewName("pds/write");
 		
 		return mv;
