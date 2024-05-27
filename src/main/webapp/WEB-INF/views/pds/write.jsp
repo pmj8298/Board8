@@ -42,24 +42,26 @@
   $(function(){
 	  let num = 1;
 	  $('#btnAddFile').on('click',function(e){
-		  let tag = '<input type="file" name="upfile' + num + '"class="upfile" multiple /><br>';
+		  let tag = '<input type="file" name="upfile"'+' class="upfile" multiple /><br>';
+		 // + num + '"class="upfile" multiple /><br>';
 		  $('#tdfile').append(tag);
 		  num++;
 	  })
 	  
 	  
   });
-
+// html <input type="file" name="upload" multuple /> -> 여러 파일을 선택하여 보낼 수 있다
+// 여러 파일을 선택하여 보낼 수 있다. + ctrl이나 shift로 여러개 선택
 </script>
 
 </head>
 <body>
   <main>
     
-    <%@include file="/WEB-INF/include/pagingmenus.jsp" %>
+    <%@include file="/WEB-INF/include/pdsmenus.jsp" %>
   
 	<h2>자료실 글 등록</h2>
-	<form action="/Pds/Write" method="POST" enctype="multipart/form-data"> <!-- 파일명이 같으면 안날아감 -->
+	<form action="/Pds/Write" method="POST" enctype="multipart/form-data"> <!-- 파일명이 같으면 안날아감, enctype="multipart/form-data : 파일전송(binary) -->
 	<input type="hidden" name="menu_id" value="${ map.menu_id }" />
 	<input type="hidden" name="nowpage" value="${ map.nowpage }" />
 	<table>

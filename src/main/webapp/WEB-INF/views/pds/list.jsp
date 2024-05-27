@@ -50,7 +50,7 @@
 <body>	
 	<main>  
 	  
-	 <%@include file="/WEB-INF/include/pagingmenus.jsp" %>
+	 <%@include file="/WEB-INF/include/pdsmenus.jsp" %>
 	
 	  <h2>자료실 목록</h2>
 	  <table id="table" >

@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Mapper;
 import com.board.pds.domain.FilesVo;
 import com.board.pds.domain.PdsVo;
 
+// @Mapper : mybatis 와 연결하기 위해 존재
+// PdsService에는 annotation 이 없고 PdsMapper에는 @Mapper 라는 annotation 이 있는 이유
 @Mapper
 public interface PdsMapper {
 

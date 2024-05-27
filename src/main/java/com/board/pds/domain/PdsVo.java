@@ -17,7 +17,7 @@ public class PdsVo {
 	private String regdate;
 	private int    hit;
 	
-	// File 정보 - 파일의 자료수
+	// Files 정보 - 파일의 자료수
 	private int filescount;
 	
 	// 메뉴정보

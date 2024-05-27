@@ -41,15 +41,17 @@ public class PdsController {
 		// 메뉴목록
 		List<MenuVo> menuList = menuMapper.getMenuList();
 		
-		// 자료실목록
+		// 자료실목록 조회
+		// pdsService - db 업무는 mapper 가 담당 + 추가적인 로직(비즈니스) 이 두가지를 담당
 		List<PdsVo> pdsList = pdsService.getPdsList(map); // 정확히는 menu_id를 가져오는 것
 		
 		ModelAndView mv = new ModelAndView();
 		// 메뉴목록
 		mv.addObject("menuList", menuList);
-		// 자료실목록 Board + Files
+		// 자료실목록 Board + Files 동시에 가져와야함
 		mv.addObject("pdsList", pdsList); 
 		mv.addObject("map", map); // map 안에는 아무거나 넣을 수 있음 왜냐 KEY 형태로 객체를 추가할 수 있기때무니지
+		mv.addObject("nowpage", map.get("nowpage"));
 		mv.setViewName("pds/list"); // pds/list.jsp -> model 에서 이동할 페이지를 담음
 		return mv;
 	}
@@ -88,26 +90,28 @@ public class PdsController {
 		return mv;
 	}
 	
-	// /Pds/Write - 자료실 저장(글 + 파일들)
+	// /Pds/Write - 자료실 저장(map: 글(title, writer, content,...) + upfile: 파일들)
 	@RequestMapping("/Write")
 	public ModelAndView write(
 			@RequestParam HashMap<String,Object> map, // 파일이 아닌 일반데이터
 			@RequestParam(value="upfile", required=false) // required=false : 입력을 안할수도 있다
-				MultipartFile[] uploadfiles // 파일처리
+				MultipartFile[] uploadFiles // 파일처리
 			) {
 		// 넘어온 정보
 		System.out.println("map:" + map); 
+		System.out.println("files:" + uploadFiles); 
 		// 저장
 		// 1. map 정보
 		// 새글 저장 -> Board table 저장
 		// 2. request 정보 활용
 		// 2-1. 업로드 시 파일 정보 저장 -> Files Table 저장
 		// 2-2. 실제 폴더에 파일 저장 -> uploadPath (D:\data 폴더)에 저장
+		pdsService.setWrite(map, uploadFiles); // 여기 수정하기
 		
 		String menu_id = "MENU01";
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("map",map);
-		mv.setViewName("redirect:/Pds/List?menu_id=" + menu_id);
+		mv.setViewName("redirect:/Pds/List?menu_id=" + map.get("menu_id"));
 
 		return mv;
 	}
