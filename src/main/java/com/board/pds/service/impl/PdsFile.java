@@ -31,7 +31,7 @@ public class PdsFile {
 				+"uploadFiles length:" + uploadFiles.length
 				);
 		
-		List<FilesVo> filesVo = new ArrayList<>();
+		List<FilesVo> fileList = new ArrayList<>();
 		
 		for(MultipartFile uploadFile : uploadFiles) {
 			
@@ -54,6 +54,10 @@ public class PdsFile {
 					         + folderPath + File.separator 
 					         + uuid + "_" + fileName;
 			
+			// saveName2: Files table sfilename - 전제 경로가 있으면 안되니까 뺌
+			String saveName2 =  folderPath + File.separator 
+					          + uuid + "_" + fileName;
+			
 			Path savePath = Paths.get(saveName);
 			// java.nio.file.Path로 import(nio 는 network io)
 			// Paths.get() : 특정 경로의 파일 정보를 가져온다
@@ -66,8 +70,17 @@ public class PdsFile {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
-			}
-		}
+			} // try end
+			
+			// 저장된 파일들의 정보를 map 에 List 로 저장 -> PdsServiceImpl 에서 사용하는 것이 목적
+			// map.put("aaa", 1234);
+			FilesVo vo  = new FilesVo(0, 0, fileName, fileExt, saveName2);
+			fileList.add(vo);
+			
+		} // end for
+		map.put("fileList", fileList);
+		
+		
 		
 	} // save() end
 

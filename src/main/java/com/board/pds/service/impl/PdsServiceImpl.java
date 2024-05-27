@@ -45,6 +45,7 @@ public class PdsServiceImpl implements PdsService{
 		return fileList;
 	}
 
+	// 자료실 글쓰기 저장
 	@Override
 	public void setWrite(HashMap<String, Object> map, MultipartFile[] uploadFiles) {
 		System.out.println("1:" + map);
@@ -52,13 +53,25 @@ public class PdsServiceImpl implements PdsService{
 		// 1. 파일 저장
 		// uploadFiles [] 을 d:\dev\data 에 저장
 		map.put("uploadPath", uploadPath);
-		// PdsFile class - 파일 처리 전담 class
+		// PdsFile class - 파일 처리 전담 class 생성(
+		// 1. 파일저장
+		// 2. 저장된 파일정보 가져온다
+		// map 1 : 1:{menu_id=MENU01, nowpage=1, title=sss, writer=ssss, content=ssss} uploadPath:D:/dev/data/uploadFiles length:3
 		PdsFile.save(map, uploadFiles);
 		
 		// map 이 중요한 역할을 함
+		// map 2 : 2:{menu_id=MENU01, nowpage=1, title=sss, writer=ssss, content=ssss, uploadPath=D:/dev/data/}
+		// PdsFile.java에 map.put("aaa", 1234); 추가 -> map 2 : 2:{menu_id=MENU01, nowpage=1, title=ㅈㅈㅈ, writer=ㅈㅈㅈ, content=ㅈㅈㅈ, uploadPath=D:/dev/data/, aaa=1234}
 		System.out.println("2:" + map);
 		
-		// 2. 자료실 글쓰기
+		// db 저장----------------
+		// 3. Board 에 글 저장
+		pdsMapper.setWrite(map);
+		
+		// 4. Files 에 저장된 파일 정보를 저장 )
+		List<FilesVo> fileList = (List<FilesVo>) map.get("fileList");
+		if(fileList.size() != 0)
+			pdsMapper.setFileWrite(map);
 	}
 
 }

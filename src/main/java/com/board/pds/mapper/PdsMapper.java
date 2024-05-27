@@ -19,4 +19,8 @@ public interface PdsMapper {
 
 	List<FilesVo> getfileList(HashMap<String, Object> map);
 
+	void setWrite(HashMap<String, Object> map);
+
+	void setFileWrite(HashMap<String, Object> map);
+
 }

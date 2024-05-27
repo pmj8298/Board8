@@ -103,15 +103,20 @@ public class PdsController {
 		// 저장
 		// 1. map 정보
 		// 새글 저장 -> Board table 저장
-		// 2. request 정보 활용
-		// 2-1. 업로드 시 파일 정보 저장 -> Files Table 저장
-		// 2-2. 실제 폴더에 파일 저장 -> uploadPath (D:\data 폴더)에 저장
-		pdsService.setWrite(map, uploadFiles); // 여기 수정하기
+		// 2. MultipartFile[] 정보 활용
+		// 2-1. 실제 폴더에 파일 저장 -> uploadPath (D:\dev\data 폴더)에 저장
+		// 2-2. 저장된 파일 정보를 db 에 저장 -> Files Table 저장
+		pdsService.setWrite(map, uploadFiles);
 		
-		String menu_id = "MENU01";
+		//String menu_id = "MENU01";
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("map",map);
-		mv.setViewName("redirect:/Pds/List?menu_id=" + map.get("menu_id"));
+		String loc = "redirect:/Pds/List";
+		loc       += "?menu_id=" + map.get("menu_id");
+		loc       += "&nowpage=" + map.get("nowpage");
+		//String loc = String.format(fmt, map.get("menu_id"), map.get("nowpage"));
+		//mv.setViewName("redirect:/Pds/List?menu_id=" + map.get("menu_id"));
+		mv.setViewName(loc);
 
 		return mv;
 	}
