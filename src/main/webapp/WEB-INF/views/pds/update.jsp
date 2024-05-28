@@ -17,6 +17,9 @@
 	      text-align :center;
 	      padding :10px;
 	      
+	      input[type=text]   { width : 100%;  }
+	      textarea           { width : 100%;  height:250px; }
+	      
 	      &:nth-of-type(1) { 
 	          width            : 150px; 
 	          background-color : black;
@@ -58,7 +61,11 @@
     
     <%@include file="/WEB-INF/include/pdsmenus.jsp" %>
   
-	<h2>자료실 내용 조회</h2>
+	<h2>자료실 내용  수정</h2>
+	<form  action="/Pds/Update"  method = "POST" enctype="multipart/form-data"> 
+	<input type ="hidden" name="bno"     value="${vo.bno }" />
+	<input type ="hidden" name="menu_id" value="${map.menu_id }" />
+	<input type ="hidden" name="nowpage" value="${map.nowpage }" />
 	<table id="table">
 	 <tr>
 	   <td>글번호</td>
@@ -74,50 +81,55 @@
 	 </tr>
 	 <tr>
 	   <td>제목</td>
-	   <td colspan="3">${ vo.title }</td>	
+	   <td colspan="3">
+	   <input type="text" name="title" value="${ vo.title }" />	   
+	   </td>	
 	 </tr>
 	 <tr>
 	   <td>내용</td>
-	   <td colspan="3">${ vo.content }</td>
-	 </tr>	
-	 <tr>
-	   <td>파일</td>
-	   <td colspan="3" id="tdfile">
-	   <c:forEach var="file" items="${ fileList }">
-	     <div class="text-start">
-	       <a href="/Pds/filedownload/${file.file_num }">
-	       ${ file.filename }
-	       </a>
-	     </div>
-	    </c:forEach>
-       </td>
+	   <td colspan="3">
+	   <textarea name="content">${ vo.content }</textarea>
+	   </td>
 	 </tr>	
 	 <tr>
 	   <td colspan="4">
-	    <a class = "btn btn-primary btn-sm" 
-	       href  = "/Pds/WriteForm?menu_id=${ vo.menu_id }&nowpage=${map.nowpage}">새 글쓰기</a>&nbsp;&nbsp;
-	    <a class = "btn btn-warning btn-sm" 
-	       href  = "/Pds/UpdateForm?bno=${ vo.bno }&menu_id=${ vo.menu_id }&nowpage=${map.nowpage}">수정</a>&nbsp;&nbsp;
-	    <a class = "btn btn-danger btn-sm" 
-	       href  = "/Pds/Delete?bno=${ vo.bno }&menu_id=${ vo.menu_id}&nowpage=${map.nowpage}">삭제</a>&nbsp;&nbsp;
+	    <input class="btn btn-primary btn-sm"  type="submit" value="수정" />
+	    <a     class="btn btn-primary btn-sm"  href="/BoardPaging/List?menu_id=${menu_id}&nowpage=${nowpage}">목록</a>
+	   </td>
+	 </tr>
+	 <tr>
+	   <td>파일</td>
+	   <td colspan="3" id="tdfile">
+	   <div>
+	   <c:forEach var="file" items="${fileList}">
+	    <div="text-start">
+	      <a href="">❌</a>
+	      <a href="/Pds/filedown/${file.file_num }">
+	        ${file.filename }
+	      </a> 
+	    </div>	   
+	   </c:forEach>
+	   </div>
+	   <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" />
+	   <input type="file" name="upfile" class="upfile" />
+	 </tr>
+	 <tr>
+	   <td colspan="4">
+	     <input class="btn btn-primary btn-sm" type="submit" value="수정" />
 	    <a class = "btn btn-secondary btn-sm" 
 	       href  = "/Pds/List?menu_id=${ vo.menu_id }&nowpage=${map.nowpage}">목록으로</a>&nbsp;&nbsp;
-	    <a class = "btn btn-info btn-sm" 
-	       href  = "javascript:history.back()">이전으로</a>&nbsp;&nbsp;
-	    <a class = "btn btn-success btn-sm" 
-	       href  = "/">Home</a>
 	   </td>
 	 </tr>
 	
 	</table>	
-
+   </form>   
 	
   </main>
   
   <script>
   	const  goListEl  = document.getElementById('goList');
   	goListEl.addEventListener('click', function(e) {
-  		location.href = '/BoardPaging/List?menu_id=${menu_id}&nowpage=${nowpage}';
+  		location.href = '/Board/List';
   	})
   
   </script>

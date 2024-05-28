@@ -25,6 +25,13 @@ public interface PdsService {
 
 	FilesVo getFileInfo(Long file_num);
 
+	void setDelete(HashMap<String, Object> map);
+
+	
+
+	
+	
+
 
 
 }

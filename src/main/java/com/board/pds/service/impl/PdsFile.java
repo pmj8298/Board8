@@ -105,4 +105,18 @@ public class PdsFile {
 		
 		return folderPath;
 	}
+
+	// 실제 물리 파일 삭제
+	public static void delete(String uploadPath, List<FilesVo> fileList) {
+		String path = uploadPath; // d:\dev\data\
+		
+		fileList.forEach((file) -> {
+			String sfile = file.getSfilename();
+			File dfile = new File(path + sfile);
+			// D:/dev/data/2024\05\28\d23776b9-163f-448e-b7ea-9b4950ecc541_0501.txt
+			// System.out.println(dfile.getAbsolutePath());
+		if(dfile.exists())
+				dfile.delete();
+		});
+	}
 }

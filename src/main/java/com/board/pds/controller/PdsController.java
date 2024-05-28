@@ -136,6 +136,44 @@ public class PdsController {
 
 		return mv;
 	}
+	// 자료실 글 삭제
+	// http://localhost:9090/Pds/Delete?bno=1008&menu_id=MENU01&nowpage=1
+	@RequestMapping("/Delete")
+	public ModelAndView delete(@RequestParam HashMap<String,Object> map) {
+		
+		
+		
+		// 삭제
+		pdsService.setDelete(map);
+		
+		ModelAndView mv = new ModelAndView();
+	
+;
+		mv.addObject("map",map);
+		String loc = "redirect:/Pds/List?menu_id" + map.get("menu_id") + "&nowpage=" + map.get("nowpage");
+		mv.setViewName(loc);
+		
+		return mv;
+	}
+	
+	
+    // 자료실 글 수정 	
+	@RequestMapping("/UpdateForm")
+	public ModelAndView updateForm(@RequestParam HashMap<String,Object> map) {
+		List<MenuVo> menuList = menuMapper.getMenuList();
+		PdsVo pdsVo = pdsService.getPds(map);
+		List<FilesVo> fileList = pdsService.getFileList(map);
+		
+		ModelAndView mv = new ModelAndView();
+		
+		mv.addObject("menuList",menuList);
+		mv.addObject("vo",pdsVo);
+		mv.addObject("fileList",fileList);
+		mv.addObject("map",map);
+		mv.setViewName("pds/update");
+		return mv;
+	}
+
 	
 	//-----------------------------------------------------------------------------------------------
 	// 파일 다운로드

@@ -120,6 +120,24 @@
   WHERE  FILE_NUM = #{arg0}
  
  </select>
+ 
+<!-- Files table 삭제 : bno --> 
+  <delete  id="deleteUploadFile">
+  
+    DELETE  
+     FROM   FILES
+     WHERE  BNO = #{ bno } 
+  
+  </delete>
+  
+  <!-- Board table 삭제 : bno -->
+  <delete  id="setDelete">
+  
+     DELETE
+      FROM   BOARD
+      WHERE  BNO = #{ bno }
+  
+  </delete>
   
 </mapper>
 
