@@ -82,4 +82,10 @@ public class PdsServiceImpl implements PdsService{
 		pdsMapper.setReadCountUpdate(map);
 	}
 
+	@Override
+	public FilesVo getFileInfo(Long file_num) {
+		FilesVo filesVo = pdsMapper.getFileInfo(file_num);
+		return filesVo;
+	}
+
 }

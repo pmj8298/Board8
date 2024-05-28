@@ -23,6 +23,8 @@ public interface PdsService {
 
 	void setReadCountUpdate(HashMap<String, Object> map);
 
+	FilesVo getFileInfo(Long file_num);
+
 
 
 }

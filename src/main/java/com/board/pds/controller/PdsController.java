@@ -1,13 +1,25 @@
 package com.board.pds.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -16,6 +28,8 @@ import com.board.menus.mapper.MenuMapper;
 import com.board.pds.domain.FilesVo;
 import com.board.pds.domain.PdsVo;
 import com.board.pds.service.PdsService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/Pds")
@@ -122,4 +136,63 @@ public class PdsController {
 
 		return mv;
 	}
+	
+	//-----------------------------------------------------------------------------------------------
+	// 파일 다운로드
+	// 메소드는 파일을 return 한다 -> ModelAndView 가 아니라 : @ResponseBody
+	@GetMapping("/filedownload/{file_num}")
+	@ResponseBody
+	public void downloadFile(
+			HttpServletResponse res,
+			@PathVariable(value="file_num") Long file_num
+			) throws UnsupportedEncodingException {
+		// 파일을 조회(Files)
+		FilesVo fileInfo = pdsService.getFileInfo(file_num);
+		// 파일 경로
+		Path saveFilePath = Paths.get(uploadPath + File.separator + fileInfo.getSfilename());
+		
+		// 해당 경로에 파일이 없으면
+		if(!saveFilePath.toFile().exists()) {
+			throw new RuntimeException("file not found");
+		}
+		// 파일 헤더 설정
+		setFileHeader(res, fileInfo);
+		
+		// 파일 복사
+		filecopy(res, saveFilePath);
+		
+	}
+	 private void setFileHeader(HttpServletResponse res,
+	          FilesVo fileInfo) 
+	                throws UnsupportedEncodingException {
+	        res.setHeader("Content-Disposition",
+	              "attachment; filename=\"" +  
+	                 URLEncoder.encode(
+	                 (String) fileInfo.getFilename(), "UTF-8") + "\";");
+	        res.setHeader("Content-Transfer-Encoding", "binary");
+	        res.setHeader("Content-Type", "application/download; utf-8");
+	        res.setHeader("Pragma", "no-cache;");
+	        res.setHeader("Expires", "-1;");
+	    }
+	
+	private void filecopy(HttpServletResponse res, Path saveFilePath) {
+		FileInputStream fis = null;
+		
+		try {
+			fis = new FileInputStream(saveFilePath.toFile());
+			FileCopyUtils.copy(fis, res.getOutputStream());
+			res.getOutputStream().flush();
+		} catch (Exception e) {
+			throw new RuntimeException(e); // 사용자 정의 예외
+		} finally {
+			try {
+				fis.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	
+	
 }

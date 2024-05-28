@@ -84,8 +84,8 @@
 	   <td>파일</td>
 	   <td colspan="3" id="tdfile">
 	   <c:forEach var="file" items="${ fileList }">
-	     <div>
-	       <a href="">
+	     <div class="text-start">
+	       <a href="/Pds/filedownload/${file.file_num }">
 	       ${ file.filename }
 	       </a>
 	     </div>

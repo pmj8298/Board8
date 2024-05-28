@@ -25,4 +25,6 @@ public interface PdsMapper {
 
 	void setReadCountUpdate(HashMap<String, Object> map);
 
+	FilesVo getFileInfo(Long file_num);
+
 }

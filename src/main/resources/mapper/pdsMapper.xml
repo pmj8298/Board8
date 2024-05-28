@@ -105,8 +105,21 @@
     SET   HIT = HIT + 1
     WHERE BNO = #{bno}
   
-  
-  </update>
+ </update>
+ 
+ <!-- 파라미터 file_num 은 오류발생 : arg0 or param1 사용
+ 일반 변수는 대응되는 getter/setter가 없기 때문
+ -->
+ <select id="getFileInfo">
+ SELECT  FILE_NUM
+		 ,BNO
+		 ,FILENAME
+		 ,FILEEXT
+		 ,SFILENAME
+  FROM   FILES
+  WHERE  FILE_NUM = #{arg0}
+ 
+ </select>
   
 </mapper>
 
