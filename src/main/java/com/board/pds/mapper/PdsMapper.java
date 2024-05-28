@@ -31,6 +31,10 @@ public interface PdsMapper {
 
 	void setDelete(HashMap<String, Object> map);
 
+	void setUpdate(HashMap<String, Object> map);
+
+	void deleteUploadFileNum(HashMap<String, Object> map);
+
 	
 
 	

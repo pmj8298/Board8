@@ -100,7 +100,7 @@
   // 목록 가기
   	const  goListEl  = document.getElementById('goList');
   	goListEl.addEventListener('click', function(e) {
-  		location.href = '/BoardPaging/List?menu_id=${menu_id}&nowpage=${nowpage}';
+  		location.href = '/Pds/List?menu_id=${map.menu_id}&nowpage=${map.nowpage}';
   	})
   
   </script>

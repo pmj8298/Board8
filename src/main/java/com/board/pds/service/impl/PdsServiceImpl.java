@@ -15,7 +15,7 @@ import com.board.pds.service.PdsService;
 
 @Service
 public class PdsServiceImpl implements PdsService{
-	// 파일이 저장괼 경로(uploadPath <- applicaiton.properties)
+	// 파일이 저장된 경로(uploadPath <- applicaiton.properties)
 	@Value("${part4.upload-path}")
 	private String uploadPath;
 	
@@ -99,6 +99,24 @@ public class PdsServiceImpl implements PdsService{
 		pdsMapper.deleteUploadFile(map);
 		// Board Table 정보 삭제
 		pdsMapper.setDelete(map);
+	}
+
+	@Override
+	public void setUpdate(HashMap<String, Object> map, MultipartFile[] uploadFiles) {
+		
+		// upload 된 파일을 물리 저장한다
+		map.put("uploadPath", uploadPath);
+	    System.out.println("map1:" + map);
+		PdsFile.save(map, uploadFiles ); // 파일 저장하고 fileList 에 저장된 정보가 map 에 담겨져서 return
+		System.out.println("map2:" + map);
+		
+		// Files 정보를 수정(fileList)
+		List<FilesVo> fileList = (List<FilesVo>) map.get("fileList");
+		if(fileList.size() != 0)
+			pdsMapper.setFileWrite(map);
+		
+		// Board 정보를 수정
+		pdsMapper.setUpdate(map);
 	}
 
 	

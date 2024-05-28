@@ -173,6 +173,17 @@ public class PdsController {
 		mv.setViewName("pds/update");
 		return mv;
 	}
+	@RequestMapping("/Update")
+	public ModelAndView update(@RequestParam HashMap<String,Object> map, 
+			                   @RequestParam(value="upfile", required = false) MultipartFile[] uploadFiles) {
+		
+		pdsService.setUpdate(map,uploadFiles);
+		
+		ModelAndView mv = new ModelAndView();
+		String loc = "redirect:/Pds/List?menu_id" + map.get("menu_id") + "&nowpage=" + map.get("nowpage");
+		mv.setViewName(loc);
+		return mv;
+	}
 
 	
 	//-----------------------------------------------------------------------------------------------

@@ -38,8 +38,10 @@ public class PdsFile {
 			String originalName = uploadFile.getOriginalFilename();
 			System.out.println("originalName:" + originalName);
 			// c:\download\data\abc.txt
-			String fileName = originalName.substring(originalName.lastIndexOf("\\")+1); // abc.txt
-			String fileExt = originalName.substring(originalName.lastIndexOf(".")); // .txt
+			String fileName = (originalName.lastIndexOf("\\") < 0 )?
+					originalName : originalName.substring(originalName.lastIndexOf("\\")+1); // abc.txt
+			String fileExt = (originalName.lastIndexOf(".") < 0 ) 
+					? "" : originalName.substring(originalName.lastIndexOf(".")); // .txt
 			
 			// d:\dev\data\2024\05\27
 			// 날짜 폴더 생성- 중복 파일 방지가 목적

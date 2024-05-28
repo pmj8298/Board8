@@ -51,6 +51,42 @@
    }
       
 </style>
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script>
+  $(function(){
+	  let num = 1;
+	  $('#btnAddFile').on('click',function(e){
+		  let tag = '<input type="file" name="upfile"'+' class="upfile" multiple /><br>';
+		 // + num + '"class="upfile" multiple /><br>';
+		  $('#tdfile').append(tag);
+		  num++;
+	  })
+	  
+	// ❌ 가 클릭되면 
+	$('.aDelete').on('click', function(e){
+		e.preventDefault();  // a tag 기본기능(이벤트 무시) - href 로 이동하지 마
+		e.stopPropagation(); // 이벤트를 상위 요소로 전달하지 않음
+		
+		let aDelete = this;
+		
+		$.ajax({
+			url : this.href,
+			method : 'GET'		
+		})
+		.done(function(result){
+			alert('삭제완료');
+			$(aDelete).parent().remove(); // 화면에서 항목을 삭제
+		})
+		.fail(function(error){
+			console.dir(error);
+			alert('오류발생:' + error)
+		});
+	})
+	  
+  });
+// html <input type="file" name="upload" multuple /> -> 여러 파일을 선택하여 보낼 수 있다
+// 여러 파일을 선택하여 보낼 수 있다. + ctrl이나 shift로 여러개 선택
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/browser-scss@1.0.3/dist/browser-scss.min.js"></script>
@@ -90,12 +126,6 @@
 	   <td colspan="3">
 	   <textarea name="content">${ vo.content }</textarea>
 	   </td>
-	 </tr>	
-	 <tr>
-	   <td colspan="4">
-	    <input class="btn btn-primary btn-sm"  type="submit" value="수정" />
-	    <a     class="btn btn-primary btn-sm"  href="/BoardPaging/List?menu_id=${menu_id}&nowpage=${nowpage}">목록</a>
-	   </td>
 	 </tr>
 	 <tr>
 	   <td>파일</td>
@@ -103,13 +133,17 @@
 	   <div>
 	   <c:forEach var="file" items="${fileList}">
 	    <div="text-start">
-	      <a href="">❌</a>
+	      <a class="aDelete" href= "/deleteFile?file_num=${file.file_num }"></a>
+	      <a class = "aDelete"	       
+	          href  = "/deleteFile?file_num=${ file.file_num }">❌</a>
 	      <a href="/Pds/filedown/${file.file_num }">
 	        ${file.filename }
 	      </a> 
 	    </div>	   
 	   </c:forEach>
 	   </div>
+	   <hr>
+	   <!-- 새 파일 추가 -->
 	   <input type="button" id="btnAddFile" value="파일추가(최대 100MB)" />
 	   <input type="file" name="upfile" class="upfile" />
 	 </tr>
@@ -126,11 +160,12 @@
 	
   </main>
   
-  <script>
-  	const  goListEl  = document.getElementById('goList');
-  	goListEl.addEventListener('click', function(e) {
-  		location.href = '/Board/List';
-  	})
+  
+ // <script>
+  //	const  goListEl  = document.getElementById('goList');
+  //	goListEl.addEventListener('click', function(e) {
+  //		location.href = '/Board/List';
+  //	})
   
   </script>
   
