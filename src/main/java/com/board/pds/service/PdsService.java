@@ -21,6 +21,8 @@ public interface PdsService {
 
 	void setWrite(HashMap<String, Object> map, MultipartFile[] uploadFiles);
 
+	void setReadCountUpdate(HashMap<String, Object> map);
+
 
 
 }

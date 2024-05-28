@@ -22,6 +22,7 @@ public class PdsServiceImpl implements PdsService{
 	@Autowired
 	private PdsMapper pdsMapper;
 
+	// 자료실 목록 보기
 	@Override
 	public List<PdsVo> getPdsList(HashMap<String, Object> map) {
 		// map{"menu_id": "MENU01", "nowpage":1}
@@ -31,17 +32,18 @@ public class PdsServiceImpl implements PdsService{
 		return pdsList;
 	}
 
+	// 자료실 내용 보기
 	@Override
 	public PdsVo getPds(HashMap<String, Object> map) {
 		PdsVo pdsVo = pdsMapper.getPds(map);
-		System.out.println("pdsVo:" + pdsVo);
+		//System.out.println("pdsVo:" + pdsVo);
 		return pdsVo;
 	}
 
 	@Override
 	public List<FilesVo> getFileList(HashMap<String, Object> map) {
 		List<FilesVo> fileList = pdsMapper.getfileList(map);
-		System.out.println("fileList:" + fileList);
+		//System.out.println("fileList:" + fileList);
 		return fileList;
 	}
 
@@ -72,6 +74,12 @@ public class PdsServiceImpl implements PdsService{
 		List<FilesVo> fileList = (List<FilesVo>) map.get("fileList");
 		if(fileList.size() != 0)
 			pdsMapper.setFileWrite(map);
+	}
+
+	@Override
+	public void setReadCountUpdate(HashMap<String, Object> map) {
+		// 조회수 증가
+		pdsMapper.setReadCountUpdate(map);
 	}
 
 }

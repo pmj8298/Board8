@@ -23,4 +23,6 @@ public interface PdsMapper {
 
 	void setFileWrite(HashMap<String, Object> map);
 
+	void setReadCountUpdate(HashMap<String, Object> map);
+
 }

@@ -98,6 +98,16 @@
     </foreach>
   </insert>
   
+  <!-- 조회수 증가 -->
+  <update id="setReadCountUpdate">
+  
+  UPDATE  BOARD
+    SET   HIT = HIT + 1
+    WHERE BNO = #{bno}
+  
+  
+  </update>
+  
 </mapper>
 
 

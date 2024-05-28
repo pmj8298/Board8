@@ -60,15 +60,17 @@ public class PdsController {
 	public ModelAndView view(@RequestParam HashMap<String,Object> map) {
 		// 메뉴목록
 		List<MenuVo> menuList = menuMapper.getMenuList();
-		// 조회수 증가
+		// 조회수 증가(hit는 Board 테이블 안에 있음 hit=hit+1)
+		pdsService.setReadCountUpdate(map);
 		// 조회할 자료실의 게시물 정보 : Board -> PdsVo
 		PdsVo pdsVo = pdsService.getPds(map);
+		System.out.println("pdsVo:"+pdsVo);
 		// 조회할 파일정보 : FilesVo -> PdsVo
 		// Bno에 해당되는 파일들의 정보
 		List<FilesVo> fileList = pdsService.getFileList(map);
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("menuList",menuList);
-		mv.addObject("pdsVo",pdsVo);
+		mv.addObject("vo",pdsVo);
 		mv.addObject("fileList",fileList);
 		mv.addObject("map",map); // map
 		
