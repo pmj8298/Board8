@@ -30,7 +30,7 @@
     WHERE BNO = #{bno}
   </select>
   
-  <select id="getfileList">
+  <select id="getFileList">
   SELECT FILE_NUM
 		 ,BNO
 		 ,FILENAME

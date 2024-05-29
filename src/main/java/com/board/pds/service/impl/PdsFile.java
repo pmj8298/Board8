@@ -34,6 +34,8 @@ public class PdsFile {
 		List<FilesVo> fileList = new ArrayList<>();
 		
 		for(MultipartFile uploadFile : uploadFiles) {
+			if(uploadFile.isEmpty())
+				continue;
 			
 			String originalName = uploadFile.getOriginalFilename();
 			System.out.println("originalName:" + originalName);
@@ -77,6 +79,7 @@ public class PdsFile {
 			// 저장된 파일들의 정보를 map 에 List 로 저장 -> PdsServiceImpl 에서 사용하는 것이 목적
 			// map.put("aaa", 1234);
 			FilesVo vo  = new FilesVo(0, 0, fileName, fileExt, saveName2);
+			if(!fileName.trim().equals("") || fileName != null)
 			fileList.add(vo);
 			
 		} // end for

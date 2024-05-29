@@ -42,7 +42,7 @@ public class PdsServiceImpl implements PdsService{
 
 	@Override
 	public List<FilesVo> getFileList(HashMap<String, Object> map) {
-		List<FilesVo> fileList = pdsMapper.getfileList(map);
+		List<FilesVo> fileList = pdsMapper.getFileList(map);
 		//System.out.println("fileList:" + fileList);
 		return fileList;
 	}
@@ -91,7 +91,7 @@ public class PdsServiceImpl implements PdsService{
 	@Override
 	public void setDelete(HashMap<String, Object> map) {
 		// 해당 파일 삭제
-		List<FilesVo> fileList =  pdsMapper.getfileList(map);
+		List<FilesVo> fileList =  pdsMapper.getFileList(map);
 		System.out.println("delete fileList:" + fileList);
 		// 실제 물리적인 파일 삭제
 		PdsFile.delete(uploadPath, fileList);

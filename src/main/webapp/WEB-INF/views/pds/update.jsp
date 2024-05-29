@@ -132,8 +132,7 @@
 	   <td colspan="3" id="tdfile">
 	   <div>
 	   <c:forEach var="file" items="${fileList}">
-	    <div="text-start">
-	      <a class="aDelete" href= "/deleteFile?file_num=${file.file_num }"></a>
+	    <div class="text-start">
 	      <a class = "aDelete"	       
 	          href  = "/deleteFile?file_num=${ file.file_num }">❌</a>
 	      <a href="/Pds/filedown/${file.file_num }">

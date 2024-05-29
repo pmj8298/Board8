@@ -65,7 +65,7 @@ public class PdsController {
 		// 자료실목록 Board + Files 동시에 가져와야함
 		mv.addObject("pdsList", pdsList); 
 		mv.addObject("map", map); // map 안에는 아무거나 넣을 수 있음 왜냐 KEY 형태로 객체를 추가할 수 있기때무니지
-		mv.addObject("nowpage", map.get("nowpage"));
+		//mv.addObject("nowpage", map.get("nowpage"));
 		mv.setViewName("pds/list"); // pds/list.jsp -> model 에서 이동할 페이지를 담음
 		return mv;
 	}
